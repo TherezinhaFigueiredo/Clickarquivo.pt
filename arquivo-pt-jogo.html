@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Do Catálogo ao Click - Jogo Interativo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://arquivo.pt/images/logo-arquivo-pt-fct.svg') no-repeat top right;
+      background-size: 120px;
+      background-color: #e7f0f9;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      color: #002d5c;
+    }
+    h1, h2 {
+      color: #002d5c;
+    }
+    .question {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .options {
+      list-style: none;
+      padding: 0;
+    }
+    .options li {
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 15px;
+      margin-top: 10px;
+      cursor: pointer;
+      background-color: #004080;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0066cc;
+    }
+    #result {
+      font-weight: bold;
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+    .progress {
+      height: 8px;
+      background: #cce0f5;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+    .progress-bar {
+      height: 100%;
+      background: #004080;
+      width: 0;
+      transition: width 0.3s ease-in-out;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #333;
+      background: #dfefff;
+      padding: 15px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Do Catálogo ao Click</h1>
+  <p>Explora de forma divertida a história do turismo digital em Portugal!</p>
+  <button onclick="startGame()">Jogar agora</button>  <div id="quiz" style="display:none">
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <div id="question-container" class="question"></div>
+    <ul id="options" class="options"></ul>
+    <button onclick="nextQuestion()">Próxima</button>
+    <div id="result"></div>
+  </div>  <footer>
+    <p><strong>Créditos:</strong></p>
+    <p>Projeto realizado por Beatriz Martins (n.º 22408661), Therezinha Figueiredo (n.º a22302187) e Cleynita (n.º a22307874), orientado pela Prof.ª Eunice Duarte.</p>
+  </footer>  <script>
+    const questions = [
+      {
+        question: "Em que ano começaram a surgir as funcionalidades de e-commerce nas plataformas analisadas?",
+        options: ["2005", "2010", "2024"],
+        answer: 1
+      },
+      {
+        question: "Qual destas plataformas foi analisada no vosso estudo?",
+        options: ["Booking.com", "Odisseias", "Trivago"],
+        answer: 1
+      },
+      {
+        question: "O que distingue a Odisseias em 2024 da versão de 2010?",
+        options: ["Reservas por telefone", "Personalização digital", "Catálogo impresso"],
+        answer: 1
+      },
+      {
+        question: "Qual a ferramenta usada para aceder às versões antigas dos sites?",
+        options: ["Internet Explorer", "Wayback Machine", "Arquivo.pt"],
+        answer: 2
+      },
+      {
+        question: "Uma das tendências identificadas em 2024 foi:",
+        options: ["Reservas por fax", "Catálogos em papel", "Storytelling emocional"],
+        answer: 2
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function startGame() {
+      document.getElementById('quiz').style.display = 'block';
+      document.querySelector('button').style.display = 'none';
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById('question-container').textContent = q.question;
+      const optionsEl = document.getElementById('options');
+      optionsEl.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(i);
+        li.appendChild(btn);
+        optionsEl.appendChild(li);
+      });
+      updateProgressBar();
+    }
+
+    function checkAnswer(selected) {
+      const correct = questions[currentQuestion].answer;
+      const resultEl = document.getElementById('result');
+      if (selected === correct) {
+        score++;
+        resultEl.textContent = "✔️ Certo!";
+        resultEl.style.color = "green";
+      } else {
+        resultEl.textContent = "❌ Errado!";
+        resultEl.style.color = "red";
+      }
+    }
+
+    function nextQuestion() {
+      document.getElementById('result').textContent = '';
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        showFinalScore();
+      }
+    }
+
+    function updateProgressBar() {
+      const progress = ((currentQuestion) / questions.length) * 100;
+      document.getElementById('progressBar').style.width = progress + "%";
+    }
+
+    function showFinalScore() {
+      const container = document.getElementById('question-container');
+      const messages = [
+        "Precisas de conhecer melhor o turismo digital...", // 0-1
+        "Quase lá! Continua a explorar!", // 2-3
+        "Parabéns! Dominas o turismo digital!" // 4-5
+      ];
+      let msg;
+      if (score <= 1) msg = messages[0];
+      else if (score <= 3) msg = messages[1];
+      else msg = messages[2];
+
+      container.innerHTML = `Fim do jogo!<br>Pontuação: ${score}/${questions.length}<br><strong>${msg}</strong>`;
+      document.getElementById('options').style.display = 'none';
+    }
+  </script></body>
+</html>
