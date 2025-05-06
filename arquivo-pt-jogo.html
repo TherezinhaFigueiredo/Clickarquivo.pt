@@ -1,27 +1,29 @@
-<!DOCTYPE html><html lang="pt">
+<!DOCTYPE html>
+<html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Do Catálogo ao Click - Jogo Interativo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Do Catálogo ao Click - Mini Site</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: url('https://arquivo.pt/images/logo-arquivo-pt-fct.svg') no-repeat top right;
-      background-size: 120px;
-      background-color: #e7f0f9;
-      padding: 20px;
-      max-width: 800px;
+      font-family: Arial, sans-serif;
+      background-color: #f2f8fc;
+      color: #003366;
+      max-width: 900px;
       margin: auto;
-      color: #002d5c;
+      padding: 20px;
     }
     h1, h2 {
-      color: #002d5c;
+      text-align: center;
+    }
+    section {
+      margin-bottom: 40px;
     }
     .question {
       margin-top: 20px;
       padding: 15px;
       background-color: #ffffff;
-      border-radius: 8px;
+      border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     .options {
@@ -33,57 +35,88 @@
     }
     button {
       padding: 10px 15px;
-      margin-top: 10px;
-      cursor: pointer;
       background-color: #004080;
       color: white;
       border: none;
       border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
     }
     button:hover {
-      background-color: #0066cc;
+      background-color: #0059b3;
     }
     #result {
-      font-weight: bold;
       margin-top: 20px;
-      font-size: 1.2em;
+      font-weight: bold;
     }
     .progress {
-      height: 8px;
-      background: #cce0f5;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 15px;
+      height: 10px;
+      background-color: #cce0f5;
+      margin-bottom: 20px;
+      border-radius: 5px;
     }
     .progress-bar {
       height: 100%;
-      background: #004080;
-      width: 0;
-      transition: width 0.3s ease-in-out;
+      width: 0%;
+      background-color: #004080;
+      border-radius: 5px;
+      transition: width 0.3s;
     }
     footer {
-      margin-top: 40px;
+      margin-top: 60px;
       font-size: 0.9em;
       color: #333;
-      background: #dfefff;
-      padding: 15px;
-      border-radius: 8px;
+      background: #e0efff;
+      padding: 20px;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
   <h1>Do Catálogo ao Click</h1>
-  <p>Explora de forma divertida a história do turismo digital em Portugal!</p>
-  <button onclick="startGame()">Jogar agora</button>  <div id="quiz" style="display:none">
-    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-    <div id="question-container" class="question"></div>
-    <ul id="options" class="options"></ul>
-    <button onclick="nextQuestion()">Próxima</button>
-    <div id="result"></div>
-  </div>  <footer>
-    <p><strong>Créditos:</strong></p>
-    <p>Projeto realizado por Beatriz Martins (n.º 22408661), Therezinha Figueiredo (n.º a22302187) e Cleynita (n.º a22307874), orientado pela Prof.ª Eunice Duarte.</p>
-  </footer>  <script>
+  <h2>Explora a evolução do turismo digital com o apoio do Arquivo.pt</h2>
+
+  <section>
+    <h3>Sobre o Projeto</h3>
+    <p>
+      Este mini site foi desenvolvido com base no nosso trabalho académico para o Prémio Arquivo.pt 2025. Investigámos como a venda de experiências turísticas em Portugal evoluiu entre 2005 e 2024, usando versões antigas de sites como a Odisseias, DouroAzul e Lifecooler disponíveis no Arquivo.pt.
+    </p>
+  </section>
+
+  <section>
+    <h3>Alguns Exemplos Visuais</h3>
+    <p>[As imagens foram temporariamente removidas. Podes inseri-las aqui mais tarde com links diretos do GitHub.]</p>
+  </section>
+
+  <section>
+    <h3>Curiosidades</h3>
+    <ul>
+      <li>Em 2005, muitos sites não permitiam compras online.</li>
+      <li>Em 2010, começou-se a ver personalização e promoções segmentadas.</li>
+      <li>Em 2024, a maioria das experiências é vendida com base em dados e emoções.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>Mini Jogo Interativo</h3>
+    <button onclick="startGame()">Jogar agora</button>
+    <div id="quiz" style="display:none">
+      <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+      <div id="question-container" class="question"></div>
+      <ul id="options" class="options"></ul>
+      <button id="nextBtn" onclick="nextQuestion()">Próxima</button>
+      <button id="restartBtn" onclick="restartGame()" style="display:none">Jogar de novo</button>
+      <div id="result"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Equipa:</strong> Beatriz Martins (22408661), Therezinha Figueiredo (a22302187), Cleynita Ramos (a22307874)</p>
+    <p>Prof.ª Orientadora: Eunice Duarte – IPLUSO</p>
+    <p>Inspirado e apoiado pelo <a href="https://arquivo.pt" target="_blank">Arquivo.pt</a></p>
+  </footer>
+
+  <script>
     const questions = [
       {
         question: "Em que ano começaram a surgir as funcionalidades de e-commerce nas plataformas analisadas?",
@@ -118,6 +151,8 @@
     function startGame() {
       document.getElementById('quiz').style.display = 'block';
       document.querySelector('button').style.display = 'none';
+      currentQuestion = 0;
+      score = 0;
       showQuestion();
     }
 
@@ -134,51 +169,57 @@
         li.appendChild(btn);
         optionsEl.appendChild(li);
       });
-      updateProgressBar();
+      document.getElementById('result').textContent = '';
+      updateProgress();
+      document.getElementById('nextBtn').style.display = 'inline-block';
+      document.getElementById('restartBtn').style.display = 'none';
     }
 
     function checkAnswer(selected) {
       const correct = questions[currentQuestion].answer;
-      const resultEl = document.getElementById('result');
+      const result = document.getElementById('result');
       if (selected === correct) {
         score++;
-        resultEl.textContent = "✔️ Certo!";
-        resultEl.style.color = "green";
+        result.textContent = "✔️ Certo!";
+        result.style.color = "green";
       } else {
-        resultEl.textContent = "❌ Errado!";
-        resultEl.style.color = "red";
+        result.textContent = "❌ Errado!";
+        result.style.color = "red";
       }
     }
 
     function nextQuestion() {
-      document.getElementById('result').textContent = '';
       currentQuestion++;
       if (currentQuestion < questions.length) {
         showQuestion();
       } else {
-        showFinalScore();
+        showFinal();
       }
     }
 
-    function updateProgressBar() {
-      const progress = ((currentQuestion) / questions.length) * 100;
-      document.getElementById('progressBar').style.width = progress + "%";
+    function updateProgress() {
+      const progress = (currentQuestion / questions.length) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
     }
 
-    function showFinalScore() {
+    function showFinal() {
       const container = document.getElementById('question-container');
       const messages = [
-        "Precisas de conhecer melhor o turismo digital...", // 0-1
-        "Quase lá! Continua a explorar!", // 2-3
-        "Parabéns! Dominas o turismo digital!" // 4-5
+        "Precisas de conhecer melhor o turismo digital...",
+        "Quase lá! Continua a explorar!",
+        "Parabéns! Dominas o turismo digital!"
       ];
-      let msg;
-      if (score <= 1) msg = messages[0];
-      else if (score <= 3) msg = messages[1];
-      else msg = messages[2];
-
+      let msg = score <= 1 ? messages[0] : score <= 3 ? messages[1] : messages[2];
       container.innerHTML = `Fim do jogo!<br>Pontuação: ${score}/${questions.length}<br><strong>${msg}</strong>`;
       document.getElementById('options').style.display = 'none';
+      document.getElementById('nextBtn').style.display = 'none';
+      document.getElementById('restartBtn').style.display = 'inline-block';
     }
-  </script></body>
+
+    function restartGame() {
+      document.getElementById('options').style.display = 'block';
+      startGame();
+    }
+  </script>
+</body>
 </html>
